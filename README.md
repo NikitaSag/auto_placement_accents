@@ -51,8 +51,7 @@ auto_placement_accents
 1) В файле src_v2/option_v2/config_v2.yaml и файле src/options/config.yaml указать пути к данным и файлам моделей
 2) В файле src_v2/option_v2/config_read_v2.py и src/options/config_read.py указать пути к config_v2.yaml и config.yaml
    соответственно
-3) Запустить download_pretrain_models.py
-4) Запустить main.py
+3) Запустить main.py
 
 Обучение моделей
 -------------------

@@ -1,0 +1,51 @@
+---
+unk_idx: 0
+pad_idx: 1
+bos_idx: 2
+eos_idx: 3
+
+path_data: 'C:\Users\Zak\auto_placement_accents\data\data_to_model_1' # путь в папку с данными для модели 1
+path_train_data: 'C:\Users\Zak\auto_placement_accents\data\data_to_model_2\train' # путь в папку с тренировочными данными для модели 2
+path_val_data: 'C:\Users\Zak\auto_placement_accents\data\data_to_model_2\val' # путь в папку с валидационными данными для модели 2
+path_test_data: False # путь в папку с тестовыми данными для модели 2
+path_model: 'C:\Users\Zak\auto_placement_accents\models\accent_model_3.pth' # путь к весам модели
+
+src_data: 'not_accent'
+tgt_data: 'accent'
+
+#  Настраиваемые параметры модели 1
+num_layers: 6 # Это количество слоев в трансформере
+max_seq_length: 100 #  Максимальная длина последовательности
+dropout: 0.1 #  Вероятность отключения каждого элемента входных данных во время обучения для предотвращения переобучения.
+batch_size: 4 # Количество предложений в пакете
+emb_size: 512 # Размерность эмбеддинга для каждого токена
+n_head: 8 #Это количество "голов" в механизме внимания
+ffn_hid_dim: 512 # Размер скрытого слоя
+num_encoder_layers: 3 # Количество слоев в энкодере трансформера.
+num_decoder_layers: 3 # Количество слоев в декодере трансформера.
+
+#  Настраиваемые параметры модели 2
+"model_name": "auto-accent-model"  # имя модели
+"weights": null # веса модели
+"resume": false # флаг возврата к обучению
+"fine_tune": false # флаг файн-тьюнинга модели
+"store_best_weights": true # сохранить лучшие веса модели
+"store_every_weight": false # сохранить все веса модели
+"augment_rate": 0.15 # вероятность аугментации токена
+"augment_type": "all" # тип аугментации
+"sub_style": "unk" # стратегия замещения для увеличения аугментации
+"alpha_sub": 0.4 # коэффициент аугментации для замены
+"alpha_del": 0.4 # скорость аугментации для удаления
+"cuda": true # используйте cuda, если доступно
+"seed": 1 # random seed
+"pretrained_model": "DeepPavlov/rubert-base-cased-sentence" # предварительно обученная языковая модель
+"freeze_pretrained": false # заморозить предварительно подготовленные слои модели
+"gru_dim": -1 # скрытое измерение в слое GRU, если значение -1 равно скрытому измерению в языковой модели
+"sequence_length": 128 # длина последовательности, используемая при подготовке набора данных (по умолчанию 256)
+"lr": !!float 5e-03 # learning rate
+"decay": 0 # weight decay (default: 0)
+"gradient_clip": -1 # gradient clipping (default: -1 i.e., none)
+"epoch": 1 #общее количество эпох (по умолчанию: 10)
+"labml": false # используйте библиотеку labml
+"save_dir": 'C:\Users\Zak\auto_placement_accents\models' #каталог сохранения модели
+"name_weights": 'model_2_weights'

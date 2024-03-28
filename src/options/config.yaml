@@ -4,8 +4,8 @@ pad_idx: 1
 bos_idx: 2
 eos_idx: 3
 
-path_data: 'C:\Users\Zak\auto_placement_accents\data' # путь в папку с данными
-path_model: 'C:\Users\Zak\auto_placement_accents\models\accent_model_3.pth' # путь к весам модели
+path_data: 'C:\Users\Zak\PycharmProjects\auto_placement_accents\data\data_to_model_1' # путь в папку с данными
+path_model: 'C:\Users\Zak\PycharmProjects\auto_placement_accents\models\accent_model_3.pt' # путь к весам модели
 
 src_data: 'not_accent'
 tgt_data: 'accent'

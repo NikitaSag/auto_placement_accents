@@ -1,4 +1,5 @@
 import torch
+from pathlib import Path
 from src.data.dataset import make_vocab
 from src.models.model import My_Transformer
 from src.options.config_read import get_config_data
@@ -37,8 +38,8 @@ def main():
         string = str(input())
         prediction = accent_arr(model, string)
     elif models_number == 2:
-        predictor = Accent_predictor(model_name=options_2['name_model'],
-                                     models_root=Path('../models'),
+        predictor = Accent_predictor(model_name=options_2['model_name'],
+                                     models_root=Path(options_2["save_dir"]),
                                      model_weights='model_2_weights.pt',
                                      quantization=False)
         print("Введите строку для тестирования")

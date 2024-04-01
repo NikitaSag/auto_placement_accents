@@ -57,7 +57,7 @@ class General_dataset(Dataset):
                      tokenizer: PreTrainedTokenizer,
                      seq_len: int,
                      token_style: str,
-                     targets,
+                     targets=None,
                      *args,
                      **kwargs):
         """

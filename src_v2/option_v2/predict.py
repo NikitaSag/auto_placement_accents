@@ -1,6 +1,6 @@
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple, Type, Union
 import re
+from typing import Dict, List, Optional, Set, Tuple, Type, Union
 
 import torch
 from transformers.tokenization_utils import PreTrainedTokenizer
@@ -19,6 +19,11 @@ target = target_data(options['path_data'])
 
 
 class Base_predictor:
+    '''
+        Загружает модель и токенайзер
+        Переводит модель в режим предсказания
+    '''
+
     def __init__(self,
                  model_name: str,
                  models_root: Path = Path("models"),
@@ -31,7 +36,7 @@ class Base_predictor:
 
         model_dir = models_root / model_name
         self.params = load_params(model_dir)
-        self.device = torch.device('cuda' if (not quantization) and torch.cuda.is_available() else 'cpu')
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
         if not model_weights:
             self.weights = get_last_pretrained_weight_path(model_dir)
@@ -44,12 +49,9 @@ class Base_predictor:
 
     def load_model(self, quantization: Optional[bool] = False) -> Set_accent_model:
         model = Set_accent_model(self.params['pretrained_model'],
-                                 self.params['targets'],
+                                 target,
                                  self.params['freeze_pretrained'],
-                                 self.params['lstm_dim'])
-
-        if quantization:
-            model = model.quantize()
+                                 self.params['gru_dim'])
 
         model.to(self.device)
         model.load(self.weights, map_location=self.device)
@@ -63,6 +65,12 @@ class Base_predictor:
 
 
 class Accent_predictor(Base_predictor):
+    '''
+        Принимает текст без ударений
+        обрабатывает последовательность для отправки в модель
+        получает и декодирует ответ
+    '''
+
     def __call__(self, text: str) -> str:
         words_original_case = text.split()
         tokens = text.split()
@@ -90,12 +98,12 @@ class Accent_predictor(Base_predictor):
             y_predict = self.model(x, attn_mask)
 
         y_predict = y_predict.view(-1, y_predict.shape[2])
-        y_predict = torch.argmax(y_predict, dim=1).view(-1)
+        y_predict = torch.argmax(y_predict, dim=0)
 
         for i in range(y_mask.shape[0]):
             if y_mask[i] == 1:
                 result += words_original_case[decode_idx]
-                result += [y_predict[i].item()]
+                result += str(y_predict[i].item())
                 result += ' '
                 decode_idx += 1
 

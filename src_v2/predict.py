@@ -98,7 +98,7 @@ class Accent_predictor(Base_predictor):
             y_predict = self.model(x, attn_mask)
 
         y_predict = y_predict.view(-1, y_predict.shape[2])
-        y_predict = torch.argmax(y_predict, dim=1).view(-1)
+        y_predict = torch.argmax(y_predict, dim=0)
 
         for i in range(y_mask.shape[0]):
             if y_mask[i] == 1:

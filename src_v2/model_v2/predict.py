@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 from typing import Dict, List, Optional, Set, Tuple, Type, Union
 
 import torch
@@ -48,9 +49,9 @@ class Base_predictor:
 
     def load_model(self, quantization: Optional[bool] = False) -> Set_accent_model:
         model = Set_accent_model(self.params['pretrained_model'],
-                                 self.params['targets'],
+                                 target,
                                  self.params['freeze_pretrained'],
-                                 self.params['lstm_dim'])
+                                 self.params['gru_dim'])
 
         model.to(self.device)
         model.load(self.weights, map_location=self.device)
@@ -97,14 +98,16 @@ class Accent_predictor(Base_predictor):
             y_predict = self.model(x, attn_mask)
 
         y_predict = y_predict.view(-1, y_predict.shape[2])
-        y_predict = torch.argmax(y_predict, dim=1).view(-1)
+        y_predict = torch.argmax(y_predict, dim=0)
 
         for i in range(y_mask.shape[0]):
             if y_mask[i] == 1:
                 result += words_original_case[decode_idx]
-                result += [y_predict[i].item()]
+                result += str(y_predict[i].item())
                 result += ' '
                 decode_idx += 1
 
         result = result.strip()
+        result = re.findall(r'(\D+)(\d+)', result)
+        result = ' '.join([(word.strip())[:int(index)] + "+" + (word.strip())[int(index):] for (word, index) in result])
         return result

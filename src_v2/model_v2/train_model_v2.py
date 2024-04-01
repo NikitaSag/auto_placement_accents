@@ -81,7 +81,7 @@ def train_epoch(model: nn.Module,
 
 def validate_epoch(model: nn.Module,
                    loader: DataLoader,
-                   criterion: nn.Module) -> float:
+                   criterion: nn.Module) -> tuple[float, float]:
     """
     валидация одной эпохи
 
@@ -121,8 +121,9 @@ def validate_epoch(model: nn.Module,
             total += torch.sum(y_mask).item()
 
     val_loss = val_loss / num_iteration
+    val_acc = correct / total
 
-    return val_loss
+    return val_loss, val_acc
 
 
 def train() -> None:
@@ -139,18 +140,18 @@ def train() -> None:
             train_loss, train_acc = train_epoch(model, train_loader, CRITERION, OPTIMIZER)
             log_train_epoch(log_path, epoch, train_loss)
 
-            val_loss, val_acc, f1, precision, recall = validate_epoch(model, val_loader, CRITERION)
+            val_loss, val_acc = validate_epoch(model, val_loader, CRITERION)
             log_val_epoch(log_path, epoch, val_loss)
 
             if options['labml']:
                 tracker.save(epoch, {'train_loss': train_loss,
-                                     'val_loss': val_loss,
-                                     'val_accuracy': val_acc})
+                                     'val_loss': val_loss})
 
             if options['store_every_weight']:
                 save_weights(model, weights_save_dir, epoch, val_acc)
             elif options['store_best_weights'] and (val_acc > best_val_acc):
                 best_val_acc = val_acc
+
                 save_weights(model, weights_save_dir, epoch, val_acc)
 
     log_text(log_path, f"Best validation Acc: {best_val_acc}")

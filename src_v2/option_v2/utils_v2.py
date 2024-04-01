@@ -78,7 +78,7 @@ def save_weights(model: Set_accent_model,
     сохраняет веса модели с эпохой и качеством
     """
     acc = str(loss_fn)[2:6]
-    save_path = weights_dir / f"{options['model_2_weights']}.pt"
+    save_path = weights_dir / f"{options['name_weights']}.pt"
     model.save(save_path)
 
 

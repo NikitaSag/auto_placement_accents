@@ -4,11 +4,11 @@ pad_idx: 1
 bos_idx: 2
 eos_idx: 3
 
-path_data: 'C:\Users\Zak\PycharmProjects\auto_placement_accents\data\data_to_model_1' # путь в папку с данными для модели 1
-path_train_data: 'C:\Users\Zak\PycharmProjects\auto_placement_accents\data\data_to_model_2\train' # путь в папку с тренировочными данными для модели 2
-path_val_data: 'C:\Users\Zak\PycharmProjects\auto_placement_accents\data\data_to_model_2\val' # путь в папку с валидационными данными для модели 2
+path_data: 'C:\Users\User\auto_placement_accents\data\data_to_model_1' # путь в папку с данными для модели 1
+path_train_data: 'C:\Users\User\auto_placement_accents\data\data_to_model_2\train' # путь в папку с тренировочными данными для модели 2
+path_val_data: 'C:\Users\User\auto_placement_accents\data\data_to_model_2\val' # путь в папку с валидационными данными для модели 2
 path_test_data: False # путь в папку с тестовыми данными для модели 2
-path_model: 'C:\Users\Zak\PycharmProjects\auto_placement_accents\models\accent_model_3.pt' # путь к весам модели
+path_model: 'C:\Users\User\auto_placement_accents\models\accent_model_3.pth' # путь к весам модели
 
 src_data: 'not_accent'
 tgt_data: 'accent'
@@ -25,7 +25,7 @@ num_encoder_layers: 3 # Количество слоев в энкодере тр
 num_decoder_layers: 3 # Количество слоев в декодере трансформера.
 
 #  Настраиваемые параметры модели 2
-"model_name": "auto-accent-model"  # имя модели
+"model_name": "auto-accent-model^3"  # имя модели
 "weights": null # веса модели
 "resume": false # флаг возврата к обучению
 "fine_tune": false # флаг файн-тьюнинга модели
@@ -45,7 +45,8 @@ num_decoder_layers: 3 # Количество слоев в декодере тр
 "lr": !!float 5e-03 # learning rate
 "decay": 0 # weight decay (default: 0)
 "gradient_clip": -1 # gradient clipping (default: -1 i.e., none)
-"epoch": 1 #общее количество эпох (по умолчанию: 10)
+"epoch": 5 #общее количество эпох (по умолчанию: 10)
 "labml": false # используйте библиотеку labml
-"save_dir": 'C:\Users\Zak\PycharmProjects\auto_placement_accents\models' #каталог сохранения модели
+"save_dir": 'C:\Users\User\auto_placement_accents\models' #каталог сохранения модели
 "name_weights": 'model_2_weights'
+"targets":
